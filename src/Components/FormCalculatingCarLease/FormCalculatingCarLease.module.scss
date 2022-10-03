@@ -1,0 +1,197 @@
+@import url('../../assets/styles/fonts.scss');
+
+.formCalculatingCarLease {
+    width: 100%;
+    padding: 213px 48px;
+    background-color: #fff;
+
+    &__title {
+        max-width: 620px;
+        font-family: 'Nekst-Bold';
+        font-weight: 900;
+        font-size: 54px;
+        line-height: 90%;
+        color: #111;
+    }
+
+    &__list {
+        display: flex;
+        margin: 32px -16px -16px -16px;
+    }
+
+    &__item {
+        margin: 16px;
+        width: calc(33.333% - 16px);
+    }
+
+    &__wrapperInput {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 66px;
+        padding: 0 24px;
+        margin-top: 24px;
+        background-color: #F3F3F4;
+        border-radius: 16px;
+    }
+
+    &__currency,
+    &__month {
+        font-family: 'Nekst-Bold';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 30px;
+        line-height: 33px;
+        color: #575757;
+    }
+
+    &__currency,
+    &__month,
+    &__interestRate {
+        position: absolute;
+        right: 24px;
+    }
+
+    &__interestRate {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(17px);
+        width: 69px;
+        height: 54px;
+        background-color: #EBEBEC;
+        border-radius: 16px;
+        font-family: 'Nekst-Bold';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 20px;
+        line-height: 120%;
+        color: #575757;
+    }
+
+    &__headline {
+        font-family: 'Gilroy-Regular';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #575757;
+    }
+
+    &__inputText {
+        font-size: 30px;
+        width: 100%;
+        background-color: transparent;
+        height: 36px;
+        transform: translateY(5px);
+        font-family: 'Nekst-Bold';
+        font-weight: 900;
+        flex: 0 0 auto;
+        color: #575757;
+
+        &::placeholder {
+            font-family: 'Nekst-Bold';
+            font-weight: 900;
+            font-size: 30px;
+            color: #575757;
+        }
+    }
+
+    &__inputRangeWrapper {
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 0;
+    }
+
+    &__inputRange {
+        position: absolute;
+        bottom: -4px;
+        display: inline-block;
+        width: 100%;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+        &::-webkit-slider-runnable-track {
+            height: 2px;
+            border: 1px solid #E1E1E1;
+            margin-top: -10px;
+        }
+
+        &::-webkit-slider-thumb {
+            margin-top: -10px;
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            height: 20px;
+            background-color: #FF9514;
+            border-radius: 50%;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+    }
+
+    &__progress, &__progressInitialFee, &__progressMounth {
+        height: 2px;
+        width: 50%;
+        background-color: #FF9514;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .calculationAmount {
+        display: flex;
+        align-items: center;
+        margin: 44px -16px -16px -16px;
+
+        &__item,
+        &__submit {
+            margin: 16px;
+            width: calc(33.333% - 16px);
+        }
+
+        &__title {
+            font-family: 'Gilroy-Regular';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 150%;
+            color: #575757;
+        }
+
+        &__summa {
+            margin-top: 13px;
+            font-family: 'Nekst-Bold';
+            font-weight: 900;
+            font-size: 54px;
+            line-height: 90%;
+            color: #575757;
+        }
+
+        &__submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10px;
+            height: 68px;
+            background-color: #FF9514;
+            border-radius: 40px;
+            font-family: 'Nekst-Bold';
+            font-weight: 900;
+            font-size: 30px;
+            line-height: 33px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: darken(#FF9514, 8%)
+            }
+        }
+    }
+}
