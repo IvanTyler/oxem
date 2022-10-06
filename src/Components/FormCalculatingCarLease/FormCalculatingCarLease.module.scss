@@ -5,6 +5,11 @@
     padding: 213px 48px;
     background-color: #fff;
 
+    @media (max-width: 1150px) {
+        padding-top: 100px;
+        padding-bottom: 120px;
+    }
+
     &__title {
         max-width: 620px;
         font-family: 'Nekst-Bold';
@@ -17,11 +22,19 @@
     &__list {
         display: flex;
         margin: 32px -16px -16px -16px;
+
+        @media (max-width: 1150px) {
+            flex-direction: column;
+        }
     }
 
     &__item {
         margin: 16px;
         width: calc(33.333% - 16px);
+
+        @media (max-width: 1150px) {
+            width: calc(100% - 16px);
+        }
     }
 
     &__wrapperInput {
@@ -35,6 +48,7 @@
         background-color: #F3F3F4;
         border-radius: 16px;
     }
+
     &__focus {
         border: 2px solid #F3F3F4;
         background-color: #fff !important;
@@ -85,9 +99,6 @@
             margin: 0;
         }
     }
-
-
-
 
     &__percent {
         font-family: 'Nekst-Bold';
@@ -201,12 +212,25 @@
     .calculationAmount {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         margin: 44px -16px -16px -16px;
 
         &__item,
         &__submit {
             margin: 16px;
-            width: calc(33.333% - 16px);
+            width: calc(33.333% - 32px);
+        }
+
+        &__item {
+            @media (max-width: 1150px) {
+                width: calc(50% - 32px);
+            }
+        }
+
+        &__submit {
+            @media (max-width: 1150px) {
+                margin-top: 28px;
+            }
         }
 
         &__title {
@@ -243,6 +267,12 @@
             color: #fff;
             cursor: pointer;
             transition: 0.3s;
+
+            @media (max-width: 1150px) {
+                height: 58px;
+                font-size: 25px;
+                line-height: 28px;
+            }
 
             &:hover {
                 background-color: darken(#FF9514, 8%)
