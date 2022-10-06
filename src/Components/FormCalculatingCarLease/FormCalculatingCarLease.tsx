@@ -7,7 +7,10 @@ export const FormCalculatingCarLease: React.FC = () => {
     const inputRangeCar = useRef<HTMLInputElement>(null)
     const inputTextProceAvto = useRef<HTMLInputElement>(null)
     const inputRageProgressCarPrice = useRef<HTMLInputElement>(null)
+    const inputEditPriceCar = useRef<HTMLInputElement>(null)
     const [defaultSumCar, setDefaultSumCar] = useState(3300000)
+    const [isEditCarprice, setIsinputEditCarprice] = useState(false)
+    const [textEditCarprice, setTextEditCarprice] = useState(5000000)
 
     const inputRangeInitialFee = useRef<HTMLInputElement>(null)
     const inputTextInitialFee = useRef<HTMLInputElement>(null)
@@ -33,15 +36,17 @@ export const FormCalculatingCarLease: React.FC = () => {
 
     const amountLeaseAgreement = initialFee + mounthCount * monthPay
 
-    const inputChangeRangeCarCost = () => {
+    const inputRangeCarCost = () => {
         const inputRangeValue = +inputRangeCar.current!.value
         setDefaultSumCar(prev => prev = inputRangeValue)
+        setIsinputEditCarprice(prev => prev = false)
+
 
         inputTextProceAvto.current!.value = inputRangeValue.toLocaleString()
         inputRageProgressCarPrice.current!.style.width = `${percentInputRage}%`
     }
 
-    const inputChangeRangeInitialFee = () => {
+    const inputRangeInitialFeeFuck = () => {
         const inputRangeValueInitialFee = +inputRangeInitialFee.current!.value
         setPercentageCar(prev => prev = inputRangeValueInitialFee)
 
@@ -49,7 +54,7 @@ export const FormCalculatingCarLease: React.FC = () => {
         inputRageProgressInitialFee.current!.style.width = `${percentInputRageInitialFee}%`
     }
 
-    const inputChangeRangeMounth = () => {
+    const inputRangeMounth = () => {
         const inputRangeValue = +inputRangeMonth.current!.value
         setMounthCount(prev => prev = inputRangeValue)
 
@@ -57,6 +62,21 @@ export const FormCalculatingCarLease: React.FC = () => {
         inputRageProgressMounth.current!.style.width = `${percentInputRageMounth}%`
     }
 
+    const inputEditCarCost = () => {
+        setIsinputEditCarprice(prev => prev = true)
+    }
+
+    const inputChangeCarCost = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const valueTarget = +event.target.value
+        setTextEditCarprice(prev => prev = valueTarget)
+
+        if (valueTarget >= 1000000 && valueTarget <= 6000000) {
+            setIsinputEditCarprice(prev => prev = false)
+            setDefaultSumCar(prev => prev = valueTarget)
+        }
+    }
+    console.log(textEditCarprice);
+    
     return (
         <form className={style.formCalculatingCarLease} action="">
             <h1 className={style.formCalculatingCarLease__title}>
@@ -66,14 +86,28 @@ export const FormCalculatingCarLease: React.FC = () => {
                 <li className={style.formCalculatingCarLease__item}>
                     <h3 className={style.formCalculatingCarLease__headline}>Стоимость автомобиля</h3>
                     <div className={style.formCalculatingCarLease__wrapperInput}>
-                        <input
-                            ref={inputTextProceAvto} type="text"
-                            className={style.formCalculatingCarLease__inputText}
-                            readOnly
-                            value={`${defaultSumCar.toLocaleString()} ₽`}
-                        />
+
+                        {isEditCarprice ? <input
+                            ref={inputTextProceAvto}
+                            type="text"
+                            maxLength={7}
+                            className={textEditCarprice < 1000000 || textEditCarprice > 6000000 ?
+                                style.formCalculatingCarLease__inputText + ' ' + style.warning :
+                                style.formCalculatingCarLease__inputText
+                            }
+                            onChange={inputChangeCarCost}
+                            // value={textEditCarprice}
+                            placeholder='Введите цену от 1000 000 до 6000 000 руб.'
+                        /> :
+                            <div
+                                ref={inputEditPriceCar}
+                                className={style.formCalculatingCarLease__inputTextEdit}
+                                onClick={() => inputEditCarCost()}
+                            >
+                                {defaultSumCar.toLocaleString()} ₽
+                            </div>}
                         <div className={style.formCalculatingCarLease__inputRangeWrapper}>
-                            <input ref={inputRangeCar} onInput={(() => inputChangeRangeCarCost())}
+                            <input ref={inputRangeCar} onInput={(() => inputRangeCarCost())}
                                 min="1000000"
                                 max="6000000"
                                 value={defaultSumCar}
@@ -99,7 +133,7 @@ export const FormCalculatingCarLease: React.FC = () => {
                             value={`${initialFee.toLocaleString()} ₽`} />
                         <span className={style.formCalculatingCarLease__interestRate}>{percentageCar}%</span>
                         <div className={style.formCalculatingCarLease__inputRangeWrapper}>
-                            <input ref={inputRangeInitialFee} onInput={(() => inputChangeRangeInitialFee())}
+                            <input ref={inputRangeInitialFee} onInput={(() => inputRangeInitialFeeFuck())}
                                 min="10"
                                 max="60"
                                 value={percentageCar}
@@ -126,7 +160,7 @@ export const FormCalculatingCarLease: React.FC = () => {
                         />
                         <span className={style.formCalculatingCarLease__month}>мес.</span>
                         <div className={style.formCalculatingCarLease__inputRangeWrapper}>
-                            <input ref={inputRangeMonth} onInput={(() => inputChangeRangeMounth())}
+                            <input ref={inputRangeMonth} onInput={(() => inputRangeMounth())}
                                 min="1"
                                 max="60"
                                 value={mounthCount}

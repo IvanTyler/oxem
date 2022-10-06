@@ -79,7 +79,10 @@
         color: #575757;
     }
 
-    &__inputText {
+    &__inputText,
+    &__inputTextEdit {
+        display: flex;
+        align-items: center;
         font-size: 30px;
         width: 100%;
         background-color: transparent;
@@ -90,11 +93,26 @@
         flex: 0 0 auto;
         color: #575757;
 
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
         &::placeholder {
-            font-family: 'Nekst-Bold';
+            font-family: 'Gilroy-Regular';
             font-weight: 900;
-            font-size: 30px;
+            font-size: 14px;
             color: #575757;
+        }
+    }
+
+    &__inputText.warning {
+        border: solid red 1px;
+        padding: 0 10px;
+
+        &::placeholder {
+            color: red;
         }
     }
 
@@ -133,7 +151,9 @@
         }
     }
 
-    &__progress, &__progressInitialFee, &__progressMounth {
+    &__progress,
+    &__progressInitialFee,
+    &__progressMounth {
         height: 2px;
         background-color: #FF9514;
         position: absolute;
