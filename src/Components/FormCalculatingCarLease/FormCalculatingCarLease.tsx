@@ -11,16 +11,20 @@ export const FormCalculatingCarLease: React.FC = () => {
     const [defaultSumCar, setDefaultSumCar] = useState(3300000)
     const [isEditCarprice, setIsinputEditCarprice] = useState(false)
     const [textEditCarprice, setTextEditCarprice] = useState(5000000)
+    const [focusCarCost, setFocusCarCost] = useState(false)
 
     const inputRangeInitialFee = useRef<HTMLInputElement>(null)
     const inputTextInitialFee = useRef<HTMLInputElement>(null)
     const inputRageProgressInitialFee = useRef<HTMLInputElement>(null)
     const [percentageCar, setPercentageCar] = useState(30)
+    const [focusInitialFee, setFocusInitialFee] = useState(false)
 
     const inputRangeMonth = useRef<HTMLInputElement>(null)
     const inputTextMounth = useRef<HTMLInputElement>(null)
     const inputRageProgressMounth = useRef<HTMLInputElement>(null)
     const [mounthCount, setMounthCount] = useState(20)
+    const [focusMounth, setFocusMounth] = useState(false)
+
 
     const sliderProgressCalculation = (valueRange: number, min: number, max: number) => {
         return Math.floor((valueRange - min) / (max - min) * 100)
@@ -39,7 +43,9 @@ export const FormCalculatingCarLease: React.FC = () => {
     const inputRangeCarCost = () => {
         const inputRangeValue = +inputRangeCar.current!.value
         setDefaultSumCar(prev => prev = inputRangeValue)
+
         setIsinputEditCarprice(prev => prev = false)
+        setFocusCarCost(prev => prev = false)
 
 
         inputTextProceAvto.current!.value = inputRangeValue.toLocaleString()
@@ -49,6 +55,7 @@ export const FormCalculatingCarLease: React.FC = () => {
     const inputRangeInitialFeeFuck = () => {
         const inputRangeValueInitialFee = +inputRangeInitialFee.current!.value
         setPercentageCar(prev => prev = inputRangeValueInitialFee)
+        setFocusInitialFee(prev => prev = false)
 
         inputTextInitialFee.current!.value = initialFee.toLocaleString()
         inputRageProgressInitialFee.current!.style.width = `${percentInputRageInitialFee}%`
@@ -57,26 +64,51 @@ export const FormCalculatingCarLease: React.FC = () => {
     const inputRangeMounth = () => {
         const inputRangeValue = +inputRangeMonth.current!.value
         setMounthCount(prev => prev = inputRangeValue)
+        setFocusMounth(prev => prev = false)
 
         inputTextMounth.current!.value = `${inputRangeValue}`
         inputRageProgressMounth.current!.style.width = `${percentInputRageMounth}%`
     }
 
-    const inputEditCarCost = () => {
-        setIsinputEditCarprice(prev => prev = true)
-    }
+    const inputEditCarCost = () => setIsinputEditCarprice(prev => prev = true)
 
     const inputChangeCarCost = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        if (event.target.value.length > 7) event.target.value = event.target.value.slice(0, 7);
+
         const valueTarget = +event.target.value
         setTextEditCarprice(prev => prev = valueTarget)
 
         if (valueTarget >= 1000000 && valueTarget <= 6000000) {
-            setIsinputEditCarprice(prev => prev = false)
+            setFocusCarCost(prev => prev = false)
             setDefaultSumCar(prev => prev = valueTarget)
+            setIsinputEditCarprice(prev => prev = false)
         }
     }
-    console.log(textEditCarprice);
-    
+
+    const inputChangePercentCarCost = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value.length > 2) event.target.value = event.target.value.slice(0, 2);
+        const valueTarget = +event.target.value
+
+        if (valueTarget >= 10 && valueTarget <= 60) setPercentageCar(prev => prev = valueTarget)
+    }
+
+    const inputChangeMounthCarCost = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value.length > 2) event.target.value = event.target.value.slice(0, 2);
+        const valueTarget = +event.target.value
+
+        if (valueTarget >= 1 && valueTarget <= 60) setMounthCount(prev => prev = valueTarget)
+    }
+
+    const inputFocusCarCost = () => setFocusCarCost(prev => prev = true)
+    const inputBlurCarCost = () => setFocusCarCost(prev => prev = false)
+
+    const inputFocusCInitialFee = () => setFocusInitialFee(prev => prev = true)
+    const inputBlurCInitialFee = () => setFocusInitialFee(prev => prev = false)
+
+    const inputFocusMounth = () => setFocusMounth(prev => prev = true)
+    const inputBlurMounth = () => setFocusMounth(prev => prev = false)
+
     return (
         <form className={style.formCalculatingCarLease} action="">
             <h1 className={style.formCalculatingCarLease__title}>
@@ -85,18 +117,20 @@ export const FormCalculatingCarLease: React.FC = () => {
             <ul className={style.formCalculatingCarLease__list}>
                 <li className={style.formCalculatingCarLease__item}>
                     <h3 className={style.formCalculatingCarLease__headline}>Стоимость автомобиля</h3>
-                    <div className={style.formCalculatingCarLease__wrapperInput}>
-
+                    <div className={focusCarCost ?
+                        style.formCalculatingCarLease__wrapperInput + ' ' + style.formCalculatingCarLease__focus :
+                        style.formCalculatingCarLease__wrapperInput
+                    }>
                         {isEditCarprice ? <input
                             ref={inputTextProceAvto}
-                            type="text"
-                            maxLength={7}
+                            type="number"
                             className={textEditCarprice < 1000000 || textEditCarprice > 6000000 ?
                                 style.formCalculatingCarLease__inputText + ' ' + style.warning :
                                 style.formCalculatingCarLease__inputText
                             }
                             onChange={inputChangeCarCost}
-                            // value={textEditCarprice}
+                            onFocus={() => inputFocusCarCost()}
+                            onBlur={() => inputBlurCarCost()}
                             placeholder='Введите цену от 1000 000 до 6000 000 руб.'
                         /> :
                             <div
@@ -125,13 +159,30 @@ export const FormCalculatingCarLease: React.FC = () => {
                 </li>
                 <li className={style.formCalculatingCarLease__item}>
                     <h3 className={style.formCalculatingCarLease__headline}>Первоначальный взнос</h3>
-                    <div className={style.formCalculatingCarLease__wrapperInput}>
-                        <input type="text"
+                    <div className={focusInitialFee ?
+                        style.formCalculatingCarLease__wrapperInput + ' ' + style.formCalculatingCarLease__focus :
+                        style.formCalculatingCarLease__wrapperInput
+                    }>
+                        <input
+                            type="text"
                             ref={inputTextInitialFee}
                             className={style.formCalculatingCarLease__inputText}
                             readOnly
                             value={`${initialFee.toLocaleString()} ₽`} />
-                        <span className={style.formCalculatingCarLease__interestRate}>{percentageCar}%</span>
+                        <div className={focusInitialFee ?
+                            style.formCalculatingCarLease__inputPercentWrapper + ' ' + style.formCalculatingCarLease__focus :
+                            style.formCalculatingCarLease__inputPercentWrapper
+                        }>
+                            <input
+                                type='number'
+                                className={style.formCalculatingCarLease__interestRate}
+                                onChange={inputChangePercentCarCost}
+                                onFocus={() => inputFocusCInitialFee()}
+                                onBlur={() => inputBlurCInitialFee()}
+                                value={percentageCar}
+                            />
+                            <span className={style.formCalculatingCarLease__percent}>%</span>
+                        </div>
                         <div className={style.formCalculatingCarLease__inputRangeWrapper}>
                             <input ref={inputRangeInitialFee} onInput={(() => inputRangeInitialFeeFuck())}
                                 min="10"
@@ -151,12 +202,18 @@ export const FormCalculatingCarLease: React.FC = () => {
                 </li>
                 <li className={style.formCalculatingCarLease__item}>
                     <h3 className={style.formCalculatingCarLease__headline}>Срок лизинга</h3>
-                    <div className={style.formCalculatingCarLease__wrapperInput}>
+                    <div className={focusMounth ?
+                        style.formCalculatingCarLease__wrapperInput + ' ' + style.formCalculatingCarLease__focus :
+                        style.formCalculatingCarLease__wrapperInput}
+                    >
                         <input
-                            type="text"
+                            type="number"
                             ref={inputTextMounth}
                             className={style.formCalculatingCarLease__inputText}
-                            defaultValue={mounthCount}
+                            onChange={inputChangeMounthCarCost}
+                            onFocus={() => inputFocusMounth()}
+                            onBlur={() => inputBlurMounth()}
+                            value={mounthCount}
                         />
                         <span className={style.formCalculatingCarLease__month}>мес.</span>
                         <div className={style.formCalculatingCarLease__inputRangeWrapper}>

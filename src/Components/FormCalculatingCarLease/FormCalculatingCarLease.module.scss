@@ -35,6 +35,10 @@
         background-color: #F3F3F4;
         border-radius: 16px;
     }
+    &__focus {
+        border: 2px solid #F3F3F4;
+        background-color: #fff !important;
+    }
 
     &__currency,
     &__month {
@@ -48,22 +52,45 @@
 
     &__currency,
     &__month,
-    &__interestRate {
+    &__inputPercentWrapper {
         position: absolute;
         right: 24px;
     }
 
-    &__interestRate {
+    &__inputPercentWrapper {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 14px;
         transform: translateX(17px);
         width: 69px;
         height: 54px;
         background-color: #EBEBEC;
         border-radius: 16px;
+    }
+
+    &__interestRate {
+        display: inline-block;
+        width: 100%;
+        background-color: transparent;
         font-family: 'Nekst-Bold';
-        font-style: normal;
+        font-weight: 900;
+        font-size: 20px;
+        line-height: 120%;
+        color: #575757;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+
+
+
+
+    &__percent {
+        font-family: 'Nekst-Bold';
         font-weight: 900;
         font-size: 20px;
         line-height: 120%;
@@ -144,10 +171,19 @@
             z-index: 1;
             width: 20px;
             height: 20px;
+            transition: 0.3s;
             background-color: #FF9514;
             border-radius: 50%;
             -webkit-appearance: none;
             cursor: pointer;
+        }
+    }
+
+    &__wrapperInput:hover &__inputRange {
+        &::-webkit-slider-thumb {
+            margin-top: -12px;
+            width: 24px;
+            height: 24px;
         }
     }
 
