@@ -122,8 +122,8 @@ export const FormCalculatingCarLease: React.FC = () => {
             monthly_payment_from: Math.floor(monthPay),
         }
 
-        setSendData(prev => prev = true)
-        axios.post(`${BACKEND_HOST}`, formData).then(response => console.log(response))
+        axios.post(`${BACKEND_HOST}`, formData)
+            .then(response => setSendData(prev => prev = response.data.success)).catch(e => console.log(e))
     }
 
     const closeMessageSendData = () => setSendData(prev => prev = false)
