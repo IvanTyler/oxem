@@ -1,13 +1,16 @@
 import React from "react";
 import { useRef, useState } from 'react';
+import axios from 'axios';
 import style from './FormCalculatingCarLease.module.scss'
+import { BACKEND_HOST } from "../Constants/constants";
 
 export const FormCalculatingCarLease: React.FC = () => {
+
+    const [sendData, setSendData] = useState(false)
 
     const inputRangeCar = useRef<HTMLInputElement>(null)
     const inputTextProceAvto = useRef<HTMLInputElement>(null)
     const inputRageProgressCarPrice = useRef<HTMLInputElement>(null)
-    const inputEditPriceCar = useRef<HTMLInputElement>(null)
     const [defaultSumCar, setDefaultSumCar] = useState(3300000)
     const [isEditCarprice, setIsinputEditCarprice] = useState(false)
     const [textEditCarprice, setTextEditCarprice] = useState(5000000)
@@ -47,8 +50,6 @@ export const FormCalculatingCarLease: React.FC = () => {
         setIsinputEditCarprice(prev => prev = false)
         setFocusCarCost(prev => prev = false)
 
-
-        inputTextProceAvto.current!.value = inputRangeValue.toLocaleString()
         inputRageProgressCarPrice.current!.style.width = `${percentInputRage}%`
     }
 
@@ -109,8 +110,28 @@ export const FormCalculatingCarLease: React.FC = () => {
     const inputFocusMounth = () => setFocusMounth(prev => prev = true)
     const inputBlurMounth = () => setFocusMounth(prev => prev = false)
 
+    const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
+        const formData = {
+            car_coast: defaultSumCar,
+            initail_payment: initialFee,
+            initail_payment_percent: percentageCar,
+            lease_term: mounthCount,
+            total_sum: Math.floor(amountLeaseAgreement),
+            monthly_payment_from: Math.floor(monthPay),
+        }
+
+        setSendData(prev => prev = true)
+        axios.post(`${BACKEND_HOST}`, formData).then(response => console.log(response))
+    }
+
+    const closeMessageSendData = () => setSendData(prev => prev = false)
+
+    if (sendData) setTimeout(closeMessageSendData, 4000)
+
     return (
-        <form className={style.formCalculatingCarLease} action="">
+        <form className={style.formCalculatingCarLease} action="" onSubmit={submitHandler}>
             <h1 className={style.formCalculatingCarLease__title}>
                 Рассчитайте стоимость автомобиля в лизинг
             </h1>
@@ -135,7 +156,6 @@ export const FormCalculatingCarLease: React.FC = () => {
                                 placeholder='Введите цену от 1000 000 до 6000 000 руб.'
                             /> :
                             <div
-                                ref={inputEditPriceCar}
                                 className={style.formCalculatingCarLease__inputTextEdit}
                                 onClick={() => inputEditCarCost()}
                             >
@@ -169,6 +189,7 @@ export const FormCalculatingCarLease: React.FC = () => {
                         <input
                             type="text"
                             ref={inputTextInitialFee}
+                            name='initail_payment'
                             className={style.formCalculatingCarLease__inputText}
                             readOnly
                             value={`${initialFee.toLocaleString()} ₽`} />
@@ -178,6 +199,7 @@ export const FormCalculatingCarLease: React.FC = () => {
                         }>
                             <input
                                 type='number'
+                                name='initail_payment_percent'
                                 className={style.formCalculatingCarLease__interestRate}
                                 onChange={inputChangePercentCarCost}
                                 onFocus={() => inputFocusCInitialFee()}
@@ -211,6 +233,7 @@ export const FormCalculatingCarLease: React.FC = () => {
                     >
                         <input
                             type="number"
+                            name='lease_term'
                             ref={inputTextMounth}
                             className={style.formCalculatingCarLease__inputText}
                             onChange={inputChangeMounthCarCost}
@@ -249,6 +272,12 @@ export const FormCalculatingCarLease: React.FC = () => {
                 </div>
                 <button className={style.calculationAmount__submit}>Оставить заявку</button>
             </div>
+
+            {sendData && <div className={style.formCalculatingCarLease__sendData}>
+                <span className={style.formCalculatingCarLease__messageSendData}>
+                    Спасибо, Ваша заявка отправлена!
+                </span>
+            </div>}
         </form>
     )
 }

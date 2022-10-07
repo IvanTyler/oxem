@@ -1,9 +1,32 @@
 @import url('../../assets/styles/fonts.scss');
 
 .formCalculatingCarLease {
+    position: relative;
     width: 100%;
     padding: 213px 48px;
     background-color: #fff;
+
+    &__sendData {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 20px;
+        background: linear-gradient(0deg, #f7f7f7, rgba(255, 255, 255, 0.9));
+        z-index: 1;
+    }
+
+    &__messageSendData {
+        font-family: 'Nekst-Bold';
+        color: #FF9514;
+        font-size: 40px;
+        letter-spacing: 2px;
+    }
 
     @media (max-width: 1150px) {
         padding-top: 100px;
