@@ -121,25 +121,28 @@ export const FormCalculatingCarLease: React.FC = () => {
                         style.formCalculatingCarLease__wrapperInput + ' ' + style.formCalculatingCarLease__focus :
                         style.formCalculatingCarLease__wrapperInput
                     }>
-                        {isEditCarprice ? <input
-                            ref={inputTextProceAvto}
-                            type="number"
-                            className={textEditCarprice < 1000000 || textEditCarprice > 6000000 ?
-                                style.formCalculatingCarLease__inputText + ' ' + style.warning :
-                                style.formCalculatingCarLease__inputText
-                            }
-                            onChange={inputChangeCarCost}
-                            onFocus={() => inputFocusCarCost()}
-                            onBlur={() => inputBlurCarCost()}
-                            placeholder='Введите цену от 1000 000 до 6000 000 руб.'
-                        /> :
+                        {isEditCarprice ?
+                            <input
+                                ref={inputTextProceAvto}
+                                type="number"
+                                className={textEditCarprice < 1000000 || textEditCarprice > 6000000 ?
+                                    style.formCalculatingCarLease__inputText + ' ' + style.warning :
+                                    style.formCalculatingCarLease__inputText
+                                }
+                                onChange={inputChangeCarCost}
+                                onFocus={() => inputFocusCarCost()}
+                                onBlur={() => inputBlurCarCost()}
+                                placeholder='Введите цену от 1000 000 до 6000 000 руб.'
+                            /> :
                             <div
                                 ref={inputEditPriceCar}
                                 className={style.formCalculatingCarLease__inputTextEdit}
                                 onClick={() => inputEditCarCost()}
                             >
-                                {defaultSumCar.toLocaleString()} ₽
-                            </div>}
+                                {defaultSumCar.toLocaleString()}
+                                <span className={style.formCalculatingCarLease__percentSymbol}>₽</span>
+                            </div>
+                        }
                         <div className={style.formCalculatingCarLease__inputRangeWrapper}>
                             <input ref={inputRangeCar} onInput={(() => inputRangeCarCost())}
                                 min="1000000"
@@ -238,11 +241,11 @@ export const FormCalculatingCarLease: React.FC = () => {
             <div className={style.calculationAmount}>
                 <div className={style.calculationAmount__item}>
                     <h3 className={style.calculationAmount__title}>Сумма договора лизинга</h3>
-                    <div className={style.calculationAmount__summa}>{Math.floor(amountLeaseAgreement).toLocaleString()} ₽</div>
+                    <div className={style.calculationAmount__summa}>{Math.floor(amountLeaseAgreement).toLocaleString()} <span className={style.calculationAmount__summa_percenr_symbol}>₽</span></div>
                 </div>
                 <div className={style.calculationAmount__item}>
                     <h3 className={style.calculationAmount__title}>Ежемесячный платеж от</h3>
-                    <div className={style.calculationAmount__summa}>{Math.floor(monthPay).toLocaleString()} ₽</div>
+                    <div className={style.calculationAmount__summa}>{Math.floor(monthPay).toLocaleString()} <span className={style.calculationAmount__summa_percenr_symbol}>₽</span></div>
                 </div>
                 <button className={style.calculationAmount__submit}>Оставить заявку</button>
             </div>
